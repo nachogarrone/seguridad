@@ -5,24 +5,34 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
-<GridPane fx:controller="com.ucu.seguridad.controllers.LoginController"
-          xmlns:fx="http://javafx.com/fxml" alignment="center" hgap="10" vgap="10">
-    <padding>
-        <Insets top="25" right="25" bottom="10" left="25"/>
-    </padding>
+<VBox alignment="center" prefHeight="250.0" prefWidth="349.0" xmlns="http://javafx.com/javafx/8"
+      xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ucu.seguridad.controllers.RegisterController">
+    <children>
+        <GridPane alignment="center" hgap="10" vgap="10">
+            <padding>
+                <Insets top="25" right="25" bottom="10" left="25"/>
+            </padding>
 
-    <Text text="Welcome" GridPane.columnIndex="0" GridPane.rowIndex="0" GridPane.columnSpan="2"/>
+            <Label text="User Name:" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+            <TextField fx:id="usernameField" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
 
-    <Label text="User Name:" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
-    <TextField GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+            <Label text="Email:" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+            <TextField fx:id="emailField" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
 
-    <Label text="Password:" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
-    <PasswordField fx:id="passwordField" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+            <Label text="Password:" GridPane.columnIndex="0" GridPane.rowIndex="3"/>
+            <PasswordField fx:id="passwordField1" GridPane.columnIndex="1" GridPane.rowIndex="3"/>
+            <Label text="Password:" GridPane.columnIndex="0" GridPane.rowIndex="4"/>
+            <PasswordField fx:id="passwordField2" GridPane.columnIndex="1" GridPane.rowIndex="4"/>
 
-    <HBox spacing="10" alignment="bottom_right" GridPane.columnIndex="1" GridPane.rowIndex="4">
-        <Button text="Register" onAction="#handleSubmitButtonAction"/>
-    </HBox>
+            <HBox spacing="10" alignment="bottom_right" GridPane.columnIndex="1" GridPane.rowIndex="7">
+                <Button text="Register" onAction="#handleSubmitButtonAction"/>
+            </HBox>
 
-    <Text fx:id="actiontarget" GridPane.columnIndex="1" GridPane.rowIndex="6"/>
-</GridPane>
+            <Text fx:id="actiontarget" GridPane.columnIndex="1" GridPane.rowIndex="7"/>
+        </GridPane>
+
+        <Label fx:id="labelError" text=""/>
+    </children>
+</VBox>
