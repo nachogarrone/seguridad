@@ -3,6 +3,7 @@ package com.ucu.seguridad.controllers;
 import com.ucu.seguridad.models.UserEntity;
 import com.ucu.seguridad.security.PasswordAdministrator;
 import com.ucu.seguridad.services.UserService;
+import com.ucu.seguridad.views.MainView;
 import com.ucu.seguridad.views.MessagesView;
 import com.ucu.seguridad.views.RegisterView;
 import com.ucu.seguridad.views.UsersView;
@@ -36,7 +37,7 @@ public class LoginController {
     UsersView usersView;
 
     @Autowired
-    MessagesView messagesView;
+    MainView mainView;
 
     @Autowired
     UserService userService;
@@ -74,8 +75,8 @@ public class LoginController {
         userService.save(userEntity);
 
         Stage stage = new Stage();
-        stage.setScene(new Scene(messagesView.getView()));
-        stage.setTitle("Messages");
+        stage.setScene(new Scene(mainView.getView()));
+        stage.setTitle("Principal");
         stage.setResizable(true);
         stage.centerOnScreen();
         stage.show();
