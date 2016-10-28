@@ -3,6 +3,7 @@ package com.ucu.seguridad.controllers;
 import com.ucu.seguridad.models.UserEntity;
 import com.ucu.seguridad.security.PasswordAdministrator;
 import com.ucu.seguridad.services.UserService;
+import com.ucu.seguridad.views.MessagesView;
 import com.ucu.seguridad.views.RegisterView;
 import com.ucu.seguridad.views.UsersView;
 import javafx.event.ActionEvent;
@@ -14,9 +15,6 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
-import java.sql.Timestamp;
-import java.util.Date;
 
 /**
  * Created by nachogarrone on 10/27/16.
@@ -33,6 +31,9 @@ public class LoginController {
 
     @Autowired
     UsersView usersView;
+
+    @Autowired
+    MessagesView messagesView;
 
     @Autowired
     UserService userService;
@@ -61,8 +62,8 @@ public class LoginController {
         userService.save(userEntity);
 
         Stage stage = new Stage();
-        stage.setScene(new Scene(usersView.getView()));
-        stage.setTitle("Users");
+        stage.setScene(new Scene(messagesView.getView()));
+        stage.setTitle("Messages");
         stage.setResizable(true);
         stage.centerOnScreen();
         stage.show();

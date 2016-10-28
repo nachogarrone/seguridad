@@ -40,7 +40,7 @@ public class RegisterController {
             labelError.setText("La password debe tener largo minimo 6");
             return;
         }
-        if (passwordField1.getText().equals(passwordField2.getText())) {
+        if (!passwordField1.getText().equals(passwordField2.getText())) {
             labelError.setText("Las passwords deben coincidir");
             return;
         }
