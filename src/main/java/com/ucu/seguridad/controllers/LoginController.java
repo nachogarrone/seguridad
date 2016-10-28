@@ -7,11 +7,14 @@ import com.ucu.seguridad.views.MessagesView;
 import com.ucu.seguridad.views.RegisterView;
 import com.ucu.seguridad.views.UsersView;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
+import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
 import javafx.stage.Stage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -38,7 +41,16 @@ public class LoginController {
     @Autowired
     UserService userService;
 
-    public void handleLogin(ActionEvent actionEvent) {
+    @FXML
+    public void initialize() {
+        passwordField.setOnKeyPressed(event -> {
+            if (event.getCode() == KeyCode.ENTER) {
+                handleLogin(event);
+            }
+        });
+    }
+
+    public void handleLogin(Event actionEvent) {
         UserEntity userEntity = userService.findByUserName(usernameField.getText());
         if (userEntity == null) {
             labelError.setText("Usuario y/o contraseña inválido");
@@ -68,7 +80,6 @@ public class LoginController {
         stage.centerOnScreen();
         stage.show();
 
-//      ((Node) (actionEvent.getSource())).getScene().getWindow().hide();
         ((Stage) ((Node) actionEvent.getSource()).getScene().getWindow()).close();
     }
 
@@ -82,4 +93,5 @@ public class LoginController {
 
         ((Stage) ((Node) actionEvent.getSource()).getScene().getWindow()).close();
     }
+
 }
