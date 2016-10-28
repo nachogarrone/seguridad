@@ -1,6 +1,7 @@
 package com.ucu.seguridad.controllers;
 
 import com.ucu.seguridad.models.MessagesEntity;
+import com.ucu.seguridad.security.MessageBuilder;
 import com.ucu.seguridad.security.MessageHash;
 import com.ucu.seguridad.services.MessagesService;
 import javafx.event.ActionEvent;
@@ -41,8 +42,15 @@ public class MessagesController {
         loadTable();
     }
 
-    private void loadTable(){
+    private void loadTable() {
         for (MessagesEntity messagesEntity : messagesService.findAllMessages()) {
+            try {
+                String salt = messagesEntity.getClave().split(":")[0];
+                String password = messagesEntity.getClave().split(":")[1];
+                messagesEntity.setMessage(MessageHash.decrypt(messagesEntity.getMessage(), password, salt));
+            } catch (Exception e) {
+                messagesEntity.setMessage("Encrypted message.");
+            }
             tableMessages.getItems().add(messagesEntity);
         }
     }
@@ -53,6 +61,7 @@ public class MessagesController {
 //        decryptColumn.setCellValueFactory(new Bu<>("message"));
     }
 
+
     public void addMessage(ActionEvent actionEvent) {
         if (StringUtils.isEmpty(messageField.getText()) || StringUtils.isEmpty(keyField.getText())) {
             // error
@@ -60,7 +69,9 @@ public class MessagesController {
         }
         MessagesEntity message = new MessagesEntity();
         message.setAuthor(authorField.getText());
-        message.setMessage(MessageHash.encode(messageField.getText(), keyField.getText()));
+        MessageBuilder messageBuilder = MessageHash.encrypt(messageField.getText(), keyField.getText());
+        message.setMessage(messageBuilder.getMessage());
+        message.setClave(messageBuilder.getKey());
         messagesService.save(message);
 
         loadTable();

@@ -14,8 +14,8 @@ import javax.persistence.Table;
 public class MessagesEntity {
     private int id;
     private String message;
-    private UserEntity userEntity;
     private String author;
+    private String clave;
 
     @Id
     @Column(name = "id", nullable = false)
@@ -65,5 +65,15 @@ public class MessagesEntity {
         int result = id;
         result = 31 * result + (message != null ? message.hashCode() : 0);
         return result;
+    }
+
+    @Basic
+    @Column(name = "clave", nullable = false, length = 100)
+    public String getClave() {
+        return clave;
+    }
+
+    public void setClave(String clave) {
+        this.clave = clave;
     }
 }
