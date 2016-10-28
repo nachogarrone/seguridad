@@ -43,6 +43,10 @@ public class LoginController {
             labelError.setText("Usuario y/o contraseña inválido");
             return;
         }
+        if (userEntity.isLocked()) {
+            labelError.setText("Cuenta bloqueada. Contacte al Administrador");
+            return;
+        }
         if (!PasswordAdministrator.matches(passwordField.getText(), userEntity.getPassword())) {
             labelError.setText("Usuario y/o contraseña inválido");
             userEntity.setLoginAttempts(userEntity.getLoginAttempts() + 1);
@@ -52,12 +56,7 @@ public class LoginController {
             userService.save(userEntity);
             return;
         }
-        if (userEntity.isLocked()) {
-            labelError.setText("Cuenta bloqueada. Contacte al Administrador");
-            return;
-        }
 
-        userEntity.setLastLogin(new Timestamp(new Date().getTime()));
         userEntity.setLoginAttempts(0);
         userService.save(userEntity);
 

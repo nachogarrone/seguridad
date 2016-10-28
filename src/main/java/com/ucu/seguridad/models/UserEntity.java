@@ -3,11 +3,8 @@ package com.ucu.seguridad.models;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import java.sql.Timestamp;
 
 /**
  * Created by nachogarrone on 10/27/16.
@@ -21,17 +18,15 @@ public class UserEntity {
     private String email;
     private Integer loginAttempts;
     private boolean locked;
-    private Timestamp lastLogin;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id", nullable = false)
     public int getId() {
         return id;
     }
 
-    public void setId(int iduser) {
-        this.id = iduser;
+    public void setId(int id) {
+        this.id = id;
     }
 
     @Basic
@@ -64,32 +59,8 @@ public class UserEntity {
         this.email = email;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        UserEntity that = (UserEntity) o;
-
-        if (id != that.id) return false;
-        if (username != null ? !username.equals(that.username) : that.username != null) return false;
-        if (password != null ? !password.equals(that.password) : that.password != null) return false;
-        if (email != null ? !email.equals(that.email) : that.email != null) return false;
-
-        return true;
-    }
-
-    @Override
-    public int hashCode() {
-        int result = id;
-        result = 31 * result + (username != null ? username.hashCode() : 0);
-        result = 31 * result + (password != null ? password.hashCode() : 0);
-        result = 31 * result + (email != null ? email.hashCode() : 0);
-        return result;
-    }
-
     @Basic
-    @Column(name = "loginAttempts", nullable = true)
+    @Column(name = "login_attempts", nullable = true)
     public Integer getLoginAttempts() {
         return loginAttempts;
     }
@@ -108,13 +79,32 @@ public class UserEntity {
         this.locked = locked;
     }
 
-    @Basic
-    @Column(name = "lastLogin", nullable = true)
-    public Timestamp getLastLogin() {
-        return lastLogin;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        UserEntity that = (UserEntity) o;
+
+        if (id != that.id) return false;
+        if (locked != that.locked) return false;
+        if (username != null ? !username.equals(that.username) : that.username != null) return false;
+        if (password != null ? !password.equals(that.password) : that.password != null) return false;
+        if (email != null ? !email.equals(that.email) : that.email != null) return false;
+        if (loginAttempts != null ? !loginAttempts.equals(that.loginAttempts) : that.loginAttempts != null)
+            return false;
+
+        return true;
     }
 
-    public void setLastLogin(Timestamp lastLogin) {
-        this.lastLogin = lastLogin;
+    @Override
+    public int hashCode() {
+        int result = id;
+        result = 31 * result + (username != null ? username.hashCode() : 0);
+        result = 31 * result + (password != null ? password.hashCode() : 0);
+        result = 31 * result + (email != null ? email.hashCode() : 0);
+        result = 31 * result + (loginAttempts != null ? loginAttempts.hashCode() : 0);
+        result = 31 * result + (locked ? 1 : 0);
+        return result;
     }
 }
