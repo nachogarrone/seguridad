@@ -55,6 +55,16 @@ public class RegisterController {
             return;
         }
 
+        if(userService.findByUserName(usernameField.getText())!=null){
+            labelError.setText("Username ya existe");
+            return;
+        }
+
+        if(userService.findByEmail(emailField.getText())!=null){
+            labelError.setText("Mail ya existe");
+            return;
+        }
+
         UserEntity userEntity = new UserEntity();
         userEntity.setUsername(usernameField.getText());
         userEntity.setEmail(emailField.getText());
