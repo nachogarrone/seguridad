@@ -5,7 +5,6 @@ import com.ucu.seguridad.security.PasswordAdministrator;
 import com.ucu.seguridad.services.UserService;
 import com.ucu.seguridad.views.LoginView;
 import javafx.event.ActionEvent;
-import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
@@ -64,7 +63,11 @@ public class RegisterController {
 
         // Go to login view
         Stage stage = new Stage();
-        stage.setScene(new Scene(loginView.getView()));
+        if (loginView.getView() != null && loginView.getView().getScene() != null) {
+            stage.setScene(loginView.getView().getScene());
+        } else {
+            stage.setScene(new Scene(loginView.getView()));
+        }
         stage.setTitle("Login");
         stage.setResizable(true);
         stage.centerOnScreen();
