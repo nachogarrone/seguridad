@@ -11,10 +11,18 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import org.passay.CharacterRule;
+import org.passay.EnglishCharacterData;
+import org.passay.LengthRule;
+import org.passay.PasswordData;
+import org.passay.PasswordValidator;
+import org.passay.RuleResult;
+import org.passay.WhitespaceRule;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
+import java.util.Arrays;
 import java.util.regex.Pattern;
 
 /**
@@ -37,14 +45,16 @@ public class RegisterController {
     public void handleSubmitButtonAction(ActionEvent actionEvent) {
         labelError.setText("");
 
-        if (StringUtils.isEmpty(passwordField1.getText()) || passwordField1.getText().length() < 6) {
-            labelError.setText("La password debe tener largo minimo 6");
-            return;
-        }
         if (!passwordField1.getText().equals(passwordField2.getText())) {
             labelError.setText("Las passwords deben coincidir");
             return;
         }
+        String valid = isValidPassword(passwordField1.getText());
+        if (valid != null) {
+            labelError.setText("La password es muy debil: " + valid);
+            return;
+        }
+
         if (StringUtils.isEmpty(usernameField.getText()) || usernameField.getText().length() < 4) {
             labelError.setText("Nombre de usuario debe tener largo minimo 4");
             return;
@@ -55,12 +65,12 @@ public class RegisterController {
             return;
         }
 
-        if(userService.findByUserName(usernameField.getText())!=null){
+        if (userService.findByUserName(usernameField.getText()) != null) {
             labelError.setText("Username ya existe");
             return;
         }
 
-        if(userService.findByEmail(emailField.getText())!=null){
+        if (userService.findByEmail(emailField.getText()) != null) {
             labelError.setText("Mail ya existe");
             return;
         }
@@ -84,5 +94,39 @@ public class RegisterController {
         stage.show();
 
         container.getScene().getWindow().hide();
+    }
+
+    private String isValidPassword(String password) {
+        StringBuilder error = null;
+        PasswordValidator validator = new PasswordValidator(Arrays.asList(
+                // length between 8 and 16 characters
+                new LengthRule(8, 16),
+
+                // at least one upper-case character
+                new CharacterRule(EnglishCharacterData.UpperCase, 1),
+
+                // at least one lower-case character
+                new CharacterRule(EnglishCharacterData.LowerCase, 1),
+
+                // at least one digit character
+                new CharacterRule(EnglishCharacterData.Digit, 1),
+
+                // at least one symbol (special character)
+                new CharacterRule(EnglishCharacterData.Special, 1),
+
+                // no whitespace
+                new WhitespaceRule()));
+        RuleResult result = validator.validate(new PasswordData(new String(password)));
+        if (result.isValid()) {
+            System.out.println("Password is valid");
+            return null;
+        } else {
+            System.out.println("Invalid password:");
+            validator.getMessages(result).forEach((x) -> {
+                System.out.println(x);
+                error.append(x);
+            });
+            return error.toString();
+        }
     }
 }
