@@ -76,7 +76,11 @@ public class LoginController {
         userService.save(userEntity);
 
         Stage stage = new Stage();
-        stage.setScene(new Scene(mainView.getView()));
+        if (mainView.getView() != null && mainView.getView().getScene() != null) {
+            stage.setScene(mainView.getView().getScene());
+        } else {
+            stage.setScene(new Scene(mainView.getView()));
+        }
         stage.setTitle("Principal");
         stage.setResizable(true);
         stage.centerOnScreen();
@@ -87,7 +91,11 @@ public class LoginController {
 
     public void handleNoAccountAction(ActionEvent actionEvent) {
         Stage stage = new Stage();
-        stage.setScene(new Scene(registerView.getView()));
+        if (registerView.getView() != null && registerView.getView().getScene() != null) {
+            stage.setScene(registerView.getView().getScene());
+        } else {
+            stage.setScene(new Scene(registerView.getView()));
+        }
         stage.setTitle("Register");
         stage.setResizable(true);
         stage.centerOnScreen();
