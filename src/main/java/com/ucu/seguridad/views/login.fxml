@@ -12,7 +12,8 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
 <VBox alignment="center" prefHeight="250.0" prefWidth="349.0" xmlns="http://javafx.com/javafx/8"
-      xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ucu.seguridad.controllers.LoginController">
+      xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ucu.seguridad.controllers.LoginController"
+      fx:id="container">
     <children>
         <GridPane alignment="center" hgap="10" prefHeight="219.0" prefWidth="243.0" vgap="10">
             <padding>

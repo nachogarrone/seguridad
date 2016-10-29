@@ -4,18 +4,17 @@ import com.ucu.seguridad.models.UserEntity;
 import com.ucu.seguridad.security.PasswordAdministrator;
 import com.ucu.seguridad.services.UserService;
 import com.ucu.seguridad.views.MainView;
-import com.ucu.seguridad.views.MessagesView;
 import com.ucu.seguridad.views.RegisterView;
 import com.ucu.seguridad.views.UsersView;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.fxml.FXML;
-import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -30,6 +29,8 @@ public class LoginController {
     public PasswordField passwordField;
     public TextField usernameField;
     public Label labelError;
+    public VBox container;
+
     @Autowired
     RegisterView registerView;
 
@@ -81,7 +82,7 @@ public class LoginController {
         stage.centerOnScreen();
         stage.show();
 
-        ((Stage) ((Node) actionEvent.getSource()).getScene().getWindow()).close();
+        container.getScene().getWindow().hide();
     }
 
     public void handleNoAccountAction(ActionEvent actionEvent) {
@@ -92,7 +93,7 @@ public class LoginController {
         stage.centerOnScreen();
         stage.show();
 
-        ((Stage) ((Node) actionEvent.getSource()).getScene().getWindow()).close();
+        container.getScene().getWindow().hide();
     }
 
 }

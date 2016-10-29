@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.Pane?>
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="254.0"
       prefWidth="377.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="com.ucu.seguridad.controllers.MainController">
+      fx:controller="com.ucu.seguridad.controllers.MainController" fx:id="container">
     <children>
         <MenuBar layoutX="7.0" layoutY="8.0">
             <menus>
@@ -25,6 +25,10 @@
                 </Menu>
             </menus>
         </MenuBar>
-        <TextArea fx:id="txt_area" layoutX="7.0" layoutY="37.0" prefHeight="209.0" prefWidth="360.0"/>
+        <TextArea fx:id="txt_area" text="Bienvenido a la aplicación más segura del mundo. Siéntase como en su casa :)"
+                  disable="true" wrapText="true"
+                  layoutX="7.0"
+                  layoutY="37.0"
+                  prefHeight="209.0" prefWidth="360.0"/>
     </children>
 </Pane>

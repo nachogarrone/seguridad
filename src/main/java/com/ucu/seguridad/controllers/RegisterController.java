@@ -10,6 +10,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -27,6 +28,7 @@ public class RegisterController {
     public PasswordField passwordField2;
     public Label labelError;
     public TextField emailField;
+    public VBox container;
     @Autowired
     LoginView loginView;
     @Autowired
@@ -68,7 +70,6 @@ public class RegisterController {
         stage.centerOnScreen();
         stage.show();
 
-//            ((Node) (actionEvent.getSource())).getScene().getWindow().hide();
-        ((Stage) ((Node) actionEvent.getSource()).getScene().getWindow()).close();
+        container.getScene().getWindow().hide();
     }
 }

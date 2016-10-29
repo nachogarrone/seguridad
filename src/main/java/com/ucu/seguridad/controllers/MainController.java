@@ -4,9 +4,10 @@ import com.ucu.seguridad.views.MessagesView;
 import com.ucu.seguridad.views.SignView;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.MenuItem;
+import javafx.scene.layout.Pane;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -18,6 +19,7 @@ import org.springframework.stereotype.Component;
 public class MainController {
     public MenuItem menu_sign;
     public MenuItem menu_mensajes;
+    public Pane container;
 
     @Autowired
     MessagesView messagesView;
@@ -28,24 +30,35 @@ public class MainController {
     @FXML
     public void initialize() {
         menu_mensajes.setOnAction((ActionEvent event) -> {
+
             Stage stage = new Stage();
-            stage.setScene(new Scene(messagesView.getView()));
+            if (messagesView.getView() != null && messagesView.getView().getScene() != null) {
+                stage.setScene(messagesView.getView().getScene());
+            } else {
+                stage.setScene(new Scene(messagesView.getView()));
+            }
             stage.setTitle("Messages");
             stage.setResizable(true);
+            stage.initModality(Modality.WINDOW_MODAL);
             stage.centerOnScreen();
             stage.show();
 
-            ((Stage) ((Node) event.getSource()).getScene().getWindow()).close();
+//            container.getScene().getWindow().hide();
         });
         menu_sign.setOnAction(event -> {
             Stage stage = new Stage();
-            stage.setScene(new Scene(signView.getView()));
+            if (signView.getView() != null && signView.getView().getScene() != null) {
+                stage.setScene(signView.getView().getScene());
+            } else {
+                stage.setScene(new Scene(signView.getView()));
+            }
             stage.setTitle("Sign Documents");
             stage.setResizable(true);
+            stage.initModality(Modality.WINDOW_MODAL);
             stage.centerOnScreen();
             stage.show();
 
-            ((Stage) ((Node) event.getSource()).getScene().getWindow()).close();
+//            container.getScene().getWindow().hide();
         });
     }
 }
