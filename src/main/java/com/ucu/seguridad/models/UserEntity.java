@@ -9,6 +9,13 @@ import javax.persistence.Table;
 /**
  * Created by nachogarrone on 10/27/16.
  */
+//@TypeDef(
+//        name="encryptedString",
+//        typeClass=EncryptedStringType.class,
+//        parameters= {
+//                @Parameter(name="encryptorRegisteredName", value="myHibernateStringEncryptor")
+//        }
+//)
 @Entity
 @Table(name = "user", schema = "seguridad", catalog = "")
 public class UserEntity {
@@ -40,6 +47,7 @@ public class UserEntity {
     }
 
     @Basic
+//    @Type(type="encryptedString")
     @Column(name = "password", nullable = false, length = 255)
     public String getPassword() {
         return password;
