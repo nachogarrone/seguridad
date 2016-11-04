@@ -15,4 +15,4 @@ Algoritmos
 - Los mensajes son encriptados mediantes AES; el usuario ingresa una clave y se le asigna un Salt para la encripción automáticamente.
 
 Usage:
-```mvn spring-boot:run``` 
+```mvn spring-boot:run -Ddb.password=***** -P default``` 
