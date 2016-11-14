@@ -5,6 +5,8 @@ import com.lowagie.text.Rectangle;
 import com.lowagie.text.pdf.PdfReader;
 import com.lowagie.text.pdf.PdfSignatureAppearance;
 import com.lowagie.text.pdf.PdfStamper;
+import com.ucu.seguridad.SwingPasswordCallbackHandler;
+
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -131,15 +133,14 @@ public class SignController {
         });
     }
 
-    private void signDocument(File fileToSign) throws NoSuchProviderException, NoSuchAlgorithmException,
-            InvalidKeyException, IOException, SignatureException, DocumentException, KeyStoreException {
+    private void signDocument(File fileToSign) throws Exception {
 
         ClassLoader classLoader = getClass().getClassLoader();
 //        File file = new File(classLoader.getResource("test.p12").getFile());
 //        readPrivateKeyFromPKCS12(file, "jPdfSign");
         //File file = new File(classLoader.getResource("test2.p12").getFile());
         //readPrivateKeyFromPKCS12(file, "test"); En el main obtniene privatekey y certificado
-        
+        readPrivateKey();
         PdfReader reader = new PdfReader(fileToSign.getAbsolutePath());
         FileOutputStream fout = new FileOutputStream("Prueba-firmada.pdf");
 
@@ -178,11 +179,11 @@ public class SignController {
 		Security.addProvider(result);			
 		return result;
 	}
-    public static void main(String[] args) throws Exception {
+    public static void readPrivateKey() throws Exception {
 		// Test for the DataKey 330 Smartcard 
 		// (dskck201.dll is installed with CIP Utilities from DataKey)
 		SwingPasswordCallbackHandler swing = new SwingPasswordCallbackHandler();
-		KeyStore ks = loadKeystore(swing );
+		KeyStore ks = loadKeystore(swing);
 		
 		for(Enumeration<String> aliases = ks.aliases(); aliases.hasMoreElements(); ) {
 			String alias = aliases.nextElement();
@@ -196,15 +197,15 @@ public class SignController {
 				if (cert instanceof X509Certificate) {
 					X509Certificate x509 = (X509Certificate)cert;
 					System.out.print(" SubjectDN="+x509.getSubjectDN());
-					certificateChain
+					
 				}
 				System.out.println();
 			}
 			
 			// private key is accessed without password 
-			privateKey = ks.getKey(alias, null);
-			if (pk != null) {
-				System.out.println(" Private key found. algorithm="+pk.getAlgorithm());
+			privateKey = (PrivateKey)ks.getKey(alias, null);
+			if (privateKey != null) {
+				System.out.println(" Private key found. algorithm="+privateKey.getAlgorithm());
 			}
 			
 			System.out.println();

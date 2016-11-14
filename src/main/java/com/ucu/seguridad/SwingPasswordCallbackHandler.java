@@ -1,4 +1,4 @@
-
+package com.ucu.seguridad;
 
 import java.awt.GridLayout;
 import java.awt.event.WindowAdapter;
