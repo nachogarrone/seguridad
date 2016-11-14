@@ -122,10 +122,10 @@ public class RegisterController {
             return null;
         } else {
             System.out.println("Invalid password:");
-            validator.getMessages(result).forEach((x) -> {
-                System.out.println(x);
-                error.append(x);
-            });
+            for (String err : validator.getMessages(result)) {
+                System.out.println(err);
+                error.append(err);
+            }
             return error.toString();
         }
     }
