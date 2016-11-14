@@ -1,21 +1,17 @@
 package com.ucu.seguridad;
 
-import java.awt.GridLayout;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 import java.io.IOException;
+import java.util.Optional;
 import java.util.concurrent.CancellationException;
 
 import javax.security.auth.callback.Callback;
 import javax.security.auth.callback.CallbackHandler;
 import javax.security.auth.callback.PasswordCallback;
 import javax.security.auth.callback.UnsupportedCallbackException;
-import javax.swing.JDialog;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JPasswordField;
-import javax.swing.JTextField;
+
+import org.springframework.data.util.Pair;
+
+import javafx.scene.control.*;
 
 public class SwingPasswordCallbackHandler implements CallbackHandler {
 
@@ -32,46 +28,76 @@ public class SwingPasswordCallbackHandler implements CallbackHandler {
 	}
 	
 	private void handlePasswordCallback(PasswordCallback passCb) throws UnsupportedCallbackException {
-		// dialog
-		JPanel panel = new JPanel();
-		panel.setLayout(new GridLayout(2, 1));
 		
-		// label
-		panel.add(new JLabel(passCb.getPrompt()));
+//		// dialog
+//		JPanel panel = new JPanel();
+//		panel.setLayout(new GridLayout(2, 1));
+//		
+//		// label
+//		panel.add(new JLabel(passCb.getPrompt()));
+//
+//		// passwort input
+//		final JTextField txtPwd = new JPasswordField(20);
+//		panel.add(txtPwd);
+//
+//		final JOptionPane pane = new JOptionPane(
+//				panel,
+//				JOptionPane.QUESTION_MESSAGE,
+//				JOptionPane.OK_CANCEL_OPTION);
+//		
+//		JDialog dialog = pane.createDialog(null, "Login / PIN");
+//
+//		// set focus to password field
+//		dialog.addWindowListener(new WindowAdapter() {
+//			@Override
+//			public void windowOpened(WindowEvent e) {
+//				txtPwd.requestFocusInWindow();
+//			}
+//		});
+//		
+//		// show dialog
+//		dialog.setVisible(true);
+//		dialog.dispose();
+		Dialog<Integer> dialog = new Dialog<>();
+		dialog.setTitle("Text Input Dialog");
+		dialog.setHeaderText("Look, a Text Input Dialog");
+		dialog.setContentText("Please enter your name:");
+		
+		// Set the button types.
+		ButtonType loginButtonType = new ButtonType("Login", ButtonData.OK_DONE);
+		dialog.getDialogPane().getButtonTypes().addAll(loginButtonType, ButtonType.CANCEL);
+		
+		// Create the username and password labels and fields.
+		GridPane grid = new GridPane();
+		grid.setHgap(10);
+		grid.setVgap(10);
+		grid.setPadding(new Insets(20, 150, 10, 10));
 
-		// passwort input
-		final JTextField txtPwd = new JPasswordField(20);
-		panel.add(txtPwd);
+		PasswordField password = new PasswordField();
+		password.setPromptText("Password");
 
-		final JOptionPane pane = new JOptionPane(
-				panel,
-				JOptionPane.QUESTION_MESSAGE,
-				JOptionPane.OK_CANCEL_OPTION);
+		grid.add(new Label("PIN:"), 0, 1);
+		grid.add(password, 1, 1);
 		
-		JDialog dialog = pane.createDialog(null, "Login / PIN");
+		dialog.getDialogPane().setContent(grid);
 
-		// set focus to password field
-		dialog.addWindowListener(new WindowAdapter() {
-			@Override
-			public void windowOpened(WindowEvent e) {
-				txtPwd.requestFocusInWindow();
-			}
-		});
+		Optional<Integer> pin = dialog.showAndWait();
 		
-		// show dialog
-		dialog.setVisible(true);
-		dialog.dispose();
-		int retVal = pane.getValue() != null ? ((Integer) pane.getValue()).intValue() : JOptionPane.CANCEL_OPTION;
+		pin.ifPresent(pinn -> passCb.setPassword(pinn.toString().toCharArray()));
+
 		
-		switch (retVal) {
-		case JOptionPane.OK_OPTION:
-			// return password
-			passCb.setPassword(txtPwd.getText().toCharArray());
-			break;
-		default:
-			// canceled by user
-			throw new CancellationException("Password Callback canceled by user");
-		}
+		
+//		int retVal = pane.getValue() != null ? ((Integer) pane.getValue()).intValue() : JOptionPane.CANCEL_OPTION;
+//		
+//		switch (retVal) {
+//		case JOptionPane.OK_OPTION:
+//			// return password
+//			passCb.setPassword(txtPwd.getText().toCharArray());
+//			break;
+//		default:
+//			// canceled by user
+//			throw new CancellationException("Password Callback canceled by user");
+//		}
 	}
 
 }

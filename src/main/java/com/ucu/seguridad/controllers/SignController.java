@@ -135,12 +135,18 @@ public class SignController {
 
     private void signDocument(File fileToSign) throws Exception {
 
-        ClassLoader classLoader = getClass().getClassLoader();
-//        File file = new File(classLoader.getResource("test.p12").getFile());
+        //ClassLoader classLoader = getClass().getClassLoader();
+        //File file = new File(classLoader.getResource("ConfigAux.cfg").getFile());
 //        readPrivateKeyFromPKCS12(file, "jPdfSign");
         //File file = new File(classLoader.getResource("test2.p12").getFile());
         //readPrivateKeyFromPKCS12(file, "test"); En el main obtniene privatekey y certificado
-        readPrivateKey();
+        try {
+			readPrivateKey();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			System.out.println(e.toString());
+		}
         PdfReader reader = new PdfReader(fileToSign.getAbsolutePath());
         FileOutputStream fout = new FileOutputStream("Prueba-firmada.pdf");
 
@@ -167,7 +173,8 @@ public class SignController {
 	}
     
     private static Provider createPkcs11Provider() throws IOException {
-		SunPKCS11 result = new sun.security.pkcs11.SunPKCS11("C:\\Users\\alfonso\\workspace32\\Seguridad\\ConfigAux.cfg");
+		SunPKCS11 result = new sun.security.pkcs11.SunPKCS11("C:\\Users\\alfonso\\git\\seguridad\\src\\main\\resources\\ConfigAux.cfg");
+		//SunPKCS11 result = new sun.security.pkcs11.SunPKCS11(ConfigFile);
 		if (result.getService("KeyStore", "PKCS11") == null) {
 			throw new RuntimeException("No PKCS#11 Service available. Probably Security Token (Smartcard) not inserted");
 		}
@@ -183,6 +190,7 @@ public class SignController {
 		// Test for the DataKey 330 Smartcard 
 		// (dskck201.dll is installed with CIP Utilities from DataKey)
 		SwingPasswordCallbackHandler swing = new SwingPasswordCallbackHandler();
+		
 		KeyStore ks = loadKeystore(swing);
 		
 		for(Enumeration<String> aliases = ks.aliases(); aliases.hasMoreElements(); ) {
