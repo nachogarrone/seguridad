@@ -3,6 +3,7 @@ package com.ucu.seguridad.controllers;
 import com.ucu.seguridad.views.MessagesView;
 import com.ucu.seguridad.views.SignView;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.MenuItem;
@@ -29,36 +30,42 @@ public class MainController {
 
     @FXML
     public void initialize() {
-        menu_mensajes.setOnAction((ActionEvent event) -> {
+        menu_mensajes.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
 
-            Stage stage = new Stage();
-            if (messagesView.getView() != null && messagesView.getView().getScene() != null) {
-                stage.setScene(messagesView.getView().getScene());
-            } else {
-                stage.setScene(new Scene(messagesView.getView()));
-            }
-            stage.setTitle("Messages");
-            stage.setResizable(true);
-            stage.initModality(Modality.WINDOW_MODAL);
-            stage.centerOnScreen();
-            stage.show();
+                Stage stage = new Stage();
+                if (messagesView.getView() != null && messagesView.getView().getScene() != null) {
+                    stage.setScene(messagesView.getView().getScene());
+                } else {
+                    stage.setScene(new Scene(messagesView.getView()));
+                }
+                stage.setTitle("Messages");
+                stage.setResizable(true);
+                stage.initModality(Modality.WINDOW_MODAL);
+                stage.centerOnScreen();
+                stage.show();
 
 //            container.getScene().getWindow().hide();
+            }
         });
-        menu_sign.setOnAction(event -> {
-            Stage stage = new Stage();
-            if (signView.getView() != null && signView.getView().getScene() != null) {
-                stage.setScene(signView.getView().getScene());
-            } else {
-                stage.setScene(new Scene(signView.getView()));
-            }
-            stage.setTitle("Sign Documents");
-            stage.setResizable(true);
-            stage.initModality(Modality.WINDOW_MODAL);
-            stage.centerOnScreen();
-            stage.show();
+        menu_sign.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                Stage stage = new Stage();
+                if (signView.getView() != null && signView.getView().getScene() != null) {
+                    stage.setScene(signView.getView().getScene());
+                } else {
+                    stage.setScene(new Scene(signView.getView()));
+                }
+                stage.setTitle("Sign Documents");
+                stage.setResizable(true);
+                stage.initModality(Modality.WINDOW_MODAL);
+                stage.centerOnScreen();
+                stage.show();
 
 //            container.getScene().getWindow().hide();
+            }
         });
     }
 }

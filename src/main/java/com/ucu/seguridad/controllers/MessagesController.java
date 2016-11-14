@@ -7,6 +7,7 @@ import com.ucu.seguridad.services.MessagesService;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.scene.control.Alert;
@@ -19,12 +20,14 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
 import javafx.util.Callback;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -57,9 +60,10 @@ public class MessagesController {
     }
 
     private void loadTable() {
-        messagesService.findAllMessages().stream().filter(messagesEntity ->
-                !tableMessages.getItems().contains(messagesEntity)).forEach(messagesEntity ->
-                tableMessages.getItems().add(messagesEntity));
+        List<MessagesEntity> messages = messagesService.findAllMessages();
+        for (MessagesEntity message : messages) {
+            if (!tableMessages.getItems().contains(message)) tableMessages.getItems().add(message);
+        }
     }
 
     private void configureUsersTable() {
@@ -128,14 +132,22 @@ public class MessagesController {
         DecryptMessageCell(final TableView table) {
             paddedButton.setPadding(new Insets(3));
             paddedButton.getChildren().add(addButton);
-            addButton.setOnMousePressed(mouseEvent -> buttonY.set(mouseEvent.getScreenY()));
-            addButton.setOnAction(actionEvent -> {
-                MessagesEntity record = (MessagesEntity) getTableRow().getItem();
-                String result = showDecryptDialog(record.getMessage(), record.getClave());
+            addButton.setOnMousePressed(new EventHandler<MouseEvent>() {
+                @Override
+                public void handle(MouseEvent mouseEvent) {
+                    buttonY.set(mouseEvent.getScreenY());
+                }
+            });
+            addButton.setOnAction(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent actionEvent) {
+                    MessagesEntity record = (MessagesEntity) DecryptMessageCell.this.getTableRow().getItem();
+                    String result = DecryptMessageCell.this.showDecryptDialog(record.getMessage(), record.getClave());
 
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setContentText(result);
-                alert.showAndWait();
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setContentText(result);
+                    alert.showAndWait();
+                }
             });
         }
 

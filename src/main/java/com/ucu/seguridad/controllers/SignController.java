@@ -7,6 +7,8 @@ import com.lowagie.text.pdf.PdfSignatureAppearance;
 import com.lowagie.text.pdf.PdfStamper;
 import com.ucu.seguridad.SwingPasswordCallbackHandler;
 
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -108,26 +110,32 @@ public class SignController {
 
     @FXML
     public void initialize() {
-        btn_load.setOnAction(event -> {
-            FileChooser fileChooser = new FileChooser();
-            fileChooser.setSelectedExtensionFilter(new FileChooser.ExtensionFilter("PDF", "pdf"));
-            File selectedFile = fileChooser.showOpenDialog(null);
+        btn_load.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                FileChooser fileChooser = new FileChooser();
+                fileChooser.setSelectedExtensionFilter(new FileChooser.ExtensionFilter("PDF", "pdf"));
+                File selectedFile = fileChooser.showOpenDialog(null);
 
-            if (selectedFile != null) {
-                label_path.setText(selectedFile.getAbsolutePath());
-                file_selected = selectedFile;
-            } else {
-                label_path.setText("");
-                file_selected = null;
+                if (selectedFile != null) {
+                    label_path.setText(selectedFile.getAbsolutePath());
+                    file_selected = selectedFile;
+                } else {
+                    label_path.setText("");
+                    file_selected = null;
+                }
             }
         });
 
-        btn_sign.setOnAction(event -> {
-            if (file_selected != null) {
-                try {
-                    signDocument(file_selected);
-                } catch (Exception e) {
-                    System.out.println("Error signing document: " + e.getMessage());
+        btn_sign.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                if (file_selected != null) {
+                    try {
+                        SignController.this.signDocument(file_selected);
+                    } catch (Exception e) {
+                        System.out.println("Error signing document: " + e.getMessage());
+                    }
                 }
             }
         });
