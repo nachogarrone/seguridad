@@ -132,22 +132,14 @@ public class MessagesController {
         DecryptMessageCell(final TableView table) {
             paddedButton.setPadding(new Insets(3));
             paddedButton.getChildren().add(addButton);
-            addButton.setOnMousePressed(new EventHandler<MouseEvent>() {
-                @Override
-                public void handle(MouseEvent mouseEvent) {
-                    buttonY.set(mouseEvent.getScreenY());
-                }
-            });
-            addButton.setOnAction(new EventHandler<ActionEvent>() {
-                @Override
-                public void handle(ActionEvent actionEvent) {
-                    MessagesEntity record = (MessagesEntity) DecryptMessageCell.this.getTableRow().getItem();
-                    String result = DecryptMessageCell.this.showDecryptDialog(record.getMessage(), record.getClave());
+            addButton.setOnMousePressed(mouseEvent -> buttonY.set(mouseEvent.getScreenY()));
+            addButton.setOnAction(actionEvent -> {
+                MessagesEntity record = (MessagesEntity) DecryptMessageCell.this.getTableRow().getItem();
+                String result = showDecryptDialog(record.getMessage(), record.getClave());
 
-                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                    alert.setContentText(result);
-                    alert.showAndWait();
-                }
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setContentText(result);
+                alert.showAndWait();
             });
         }
 

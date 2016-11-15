@@ -14,6 +14,7 @@ import javax.security.auth.callback.PasswordCallback;
 import javax.security.auth.callback.UnsupportedCallbackException;
 import java.io.IOException;
 import java.util.Optional;
+import java.util.function.Consumer;
 
 public class SwingPasswordCallbackHandler implements CallbackHandler {
 
@@ -86,7 +87,7 @@ public class SwingPasswordCallbackHandler implements CallbackHandler {
 
         Optional<Integer> pin = dialog.showAndWait();
 
-        pin.ifPresent(pinn -> passCb.setPassword(pinn.toString().toCharArray()));
+        passCb.setPassword(password.getText().toCharArray());
 
 
 //		int retVal = pane.getValue() != null ? ((Integer) pane.getValue()).intValue() : JOptionPane.CANCEL_OPTION;

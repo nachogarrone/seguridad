@@ -113,7 +113,7 @@ public class RegisterController {
                 new CharacterRule(EnglishCharacterData.Digit, 1),
 
                 // at least one symbol (special character)
-                //new CharacterRule(EnglishCharacterData.Special, 1),
+                new CharacterRule(EnglishCharacterData.Special, 1),
 
                 // no whitespace
                 new WhitespaceRule()));
